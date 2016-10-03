@@ -14,8 +14,14 @@ namespace Grupparbetegrupp7
     {
         public Form1()
         {
-        int i=0;
+            int i=0;
+            int j = 0;
             InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
