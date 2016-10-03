@@ -16,6 +16,7 @@ namespace Grupparbetegrupp7
         {
             Console.Write("Hej");
         int i=0;
+            int kj;
             InitializeComponent();
         }
     }
