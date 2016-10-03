@@ -14,7 +14,7 @@ namespace Grupparbetegrupp7
     {
         public Form1()
         {
-            Console.Write("Welcome to our project Hello");
+            Console.Write("Welcome to our project");
             InitializeComponent();
         }
 
