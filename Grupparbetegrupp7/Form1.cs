@@ -14,8 +14,13 @@ namespace Grupparbetegrupp7
     {
         public Form1()
         {
-            Console.Write("Welcome to our project");
+            Console.Write("Welcome to our project Hello");
             InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
