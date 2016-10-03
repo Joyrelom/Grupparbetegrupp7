@@ -22,5 +22,10 @@ namespace Grupparbetegrupp7
         {
 
         }
+
+        private void txtSök_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
