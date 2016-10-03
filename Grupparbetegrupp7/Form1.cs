@@ -14,6 +14,7 @@ namespace Grupparbetegrupp7
     {
         public Form1()
         {
+        int i=0;
             InitializeComponent();
         }
     }
