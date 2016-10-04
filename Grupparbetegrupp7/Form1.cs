@@ -7,8 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
-using System.Xml;
 namespace Grupparbetegrupp7
 {
     public partial class Form1 : Form
@@ -21,10 +19,134 @@ namespace Grupparbetegrupp7
         {
             
             InitializeComponent();
-            ux.LaddaInRecept();
+            string returvärde= ux.LaddaInRecept();
+            listRecept.Items.Add(returvärde);
         }
 
-        private void btnSök_Click(object sender, EventArgs e)
+
+        public override void ResetText()
+        {
+            txtTitel.Text = "";
+            cxtAmne.Text = "";
+            rtxt.Text = "";
+        }
+
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            txtSok.Text = "";
+            ux.UpdateXml();
+            ResetText();
+
+        }
+        private bool AllaUppgifterIfyllda()
+        {
+            try
+            {
+                //gör en exception samma vid ta bort
+                allaUppgifterIfyllda = false;
+                if (txtTitel.Text != "" && cxtAmne.Text != "" && rtxt.Text != "")
+                {
+                    allaUppgifterIfyllda = true;
+                    recept[listRecept.SelectedIndex].Titel = txtTitel.Text;
+                    recept[listRecept.SelectedIndex].Amne = cxtAmne.Text;
+                    recept[listRecept.SelectedIndex].Beskrivning = rtxt.Text;
+
+                }
+                else if (allaUppgifterIfyllda == false)
+                {
+                    MessageBox.Show("Du måste fylla i alla uppgifter för att spara ett recept");
+                }
+            }
+            catch { }
+            return allaUppgifterIfyllda;
+        }
+
+        private void cmdSpara_Click(object sender, EventArgs e)
+        {
+            if (AllaUppgifterIfyllda())
+            {
+
+                Recept r = new Recept();
+                r.Titel = txtTitel.Text;
+                r.Amne = cxtAmne.Text;
+                r.Beskrivning= rtxt.Text;
+                recept.Add(r);
+                listRecept.Items.Add(r.Titel);
+                ux.UpdateXml();
+
+                MessageBox.Show("Din adress är nu sparad");
+                ResetText();
+            }
+        }
+
+        private void cmdAndra_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (AllaUppgifterIfyllda())
+                {
+                    recept.RemoveAt(listRecept.SelectedIndex);
+                    listRecept.Items.Remove(listRecept.SelectedItems[0]);
+
+                    Recept r = new Recept();
+                    r.Titel = txtTitel.Text;
+                    r.Amne = cxtAmne.Text;
+                    r.Beskrivning = rtxt.Text;
+
+                    recept.Add(r);
+                    listRecept.Items.Add(r.Titel);
+                    ux.UpdateXml();
+                    ResetText();
+
+                    MessageBox.Show("Ditt recept är nu ändrat");
+
+                }
+            }
+            catch { }
+        }
+
+        private void cmdTaBort_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                recept.RemoveAt(listRecept.SelectedIndex);
+                listRecept.Items.Remove(listRecept.SelectedItems[0]);
+                ux.UpdateXml();
+               listRecept.ClearSelected();
+            }
+            catch { }
+
+            ResetText();
+        }
+
+        private void listRecept_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if (listRecept.SelectedItem != null)
+            {
+                string[] varden = listRecept.SelectedItem.ToString().Split(',');
+                Recept r = recept.SingleOrDefault(x => x.Titel == varden[0]);
+                txtTitel.Text = r.Titel;
+                cxtAmne.Text = r.Amne;
+                rtxt.Text = r.Beskrivning;
+            }
+        }
+
+        private void txtSok_TextChanged(object sender, EventArgs e)
+        {
+            ResetText();
+            listRecept.Items.Clear();
+            if (txtSok.Text == "")
+            {
+                foreach (var item in recept)
+                {
+                    listRecept.Items.Add(item.Titel);
+                }
+            }
+        }
+
+        private void cmdSok_Click(object sender, EventArgs e)
         {
 
             if (txtSok.Text != "")
@@ -53,145 +175,6 @@ namespace Grupparbetegrupp7
 
 
             }
-
-        }
-
-
-        public override void ResetText()
-        {
-            txtTitel.Text = "";
-            cxtAmne.Text = "";
-            rtxt.Text = "";
-        }
-
-
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            txtSok.Text = "";
-            ux.UpdateXml();
-            ResetText();
-
-        }
-
-
-
-        private bool AllaUppgifterIfyllda()
-        {
-            try
-            {
-                //gör en exception samma vid ta bort
-                allaUppgifterIfyllda = false;
-                if (txtTitel.Text != "" && cxtAmne.Text != "" && rtxt.Text != "")
-                {
-                    allaUppgifterIfyllda = true;
-                    recept[listRecept.SelectedIndex].Titel = txtTitel.Text;
-                    recept[listRecept.SelectedIndex].Amne = cxtAmne.Text;
-                    recept[listRecept.SelectedIndex].Beskrivning = rtxt.Text;
-
-                }
-                else if (allaUppgifterIfyllda == false)
-                {
-                    MessageBox.Show("Du måste fylla i alla uppgifter för att spara ett recept");
-                }
-            }
-            catch { }
-            return allaUppgifterIfyllda;
-        }
-
-        private void txtSök_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listViewSearch_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-
-
-            if (listRecept.SelectedItem != null)
-            {
-                string[] varden = listRecept.SelectedItem.ToString().Split(',');
-                Recept r = recept.SingleOrDefault(x => x.Titel == varden[0]);
-                txtTitel.Text = r.Titel;
-                cxtAmne.Text = r.Amne;
-                rtxt.Text = r.Beskrivning;
-            }
-        }
-
-        private void btnChange_Click_1(object sender, EventArgs e)
-        {
-            try
-            {
-                if (AllaUppgifterIfyllda())
-                {
-                   recept.RemoveAt(listRecept.SelectedIndex);
-                    listRecept.Items.Remove(listRecept.SelectedItems[0]);
-
-                    Recept r = new Recept();
-                    r.Titel = txtTitel.Text;
-                    r.Amne = cxtAmne.Text;
-                    r.Beskrivning = rtxt.Text;
-                   
-                    recept.Add(r);
-                   listRecept.Items.Add(r.Titel);
-                    ux.UpdateXml();
-                    ResetText();
-
-                    MessageBox.Show("Ditt recept är nu ändrat");
-
-                }
-            }
-            catch { }
-
-        }
-
-        private void txtSök_TextChanged_1(object sender, EventArgs e)
-        {
-            ResetText();
-            listRecept.Items.Clear();
-            if (txtSok.Text == "")
-            {
-                foreach (var item in recept)
-                {
-                    listRecept.Items.Add(item.Titel);
-                }
-            }
-        }
-
-        private void cmdSpara_Click(object sender, EventArgs e)
-        {
-            if (AllaUppgifterIfyllda())
-            {
-
-                Recept r = new Recept();
-                r.Titel = txtTitel.Text;
-                r.Amne = cxtAmne.Text;
-                r.Beskrivning= rtxt.Text;
-                recept.Add(r);
-                listRecept.Items.Add(r.Titel);
-                ux.UpdateXml();
-
-                MessageBox.Show("Din adress är nu sparad");
-                ResetText();
-            }
-        }
-
-        private void cmdAndra_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cmdTaBort_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                recept.RemoveAt(listRecept.SelectedIndex);
-                listRecept.Items.Remove(listRecept.SelectedItems[0]);
-                ux.UpdateXml();
-               listRecept.ClearSelected();
-            }
-            catch { }
-
-            ResetText();
         }
     }
 

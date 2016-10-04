@@ -17,7 +17,7 @@ namespace Grupparbetegrupp7
 
             XmlDocument xDoc = new XmlDocument();
 
-            xDoc.Load(path + "\\temp\\Grupp7\\settings.xml");
+            xDoc.Load(path + "\\temp\\Grupp7\\installningar.xml");
             XmlNode xNode = xDoc.SelectSingleNode("AllaRecept");
 
             xNode.RemoveAll();
@@ -43,24 +43,24 @@ namespace Grupparbetegrupp7
 
             }
 
-            xDoc.Save(path + "\\temp\\Grupp7\\settings.xml");
+            xDoc.Save(path + "\\temp\\Grupp7\\installningar.xml");
 
         }
         public string LaddaInRecept()
         {
             string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            if (!Directory.Exists(path + "\\temp\\settings.xml"))
-                Directory.CreateDirectory(path + "\\temp\\settings.xml");
-            if (!File.Exists(path + "\\temp\\Grupp7\\settings.xml"))
+            if (!Directory.Exists(path + "\\temp\\Grupp7"))
+                Directory.CreateDirectory(path + "\\temp\\Grupp7");
+            if (!File.Exists(path + "\\temp\\Grupp7\\installningar.xml"))
             {
-                XmlTextWriter xmlTW = new XmlTextWriter(path + "\\temp\\Grupp7\\settings.xml", Encoding.UTF8);
-                xmlTW.WriteStartElement("Personer");
+                XmlTextWriter xmlTW = new XmlTextWriter(path + "\\temp\\Grupp7\\installningar.xml", Encoding.UTF8);
+                xmlTW.WriteStartElement("AllaRecept");
                 xmlTW.WriteEndElement();
                 xmlTW.Close();
 
             }
             XmlDocument xDoc = new XmlDocument();
-            xDoc.Load(path + "\\temp\\Grupp7\\settings.xml");
+            xDoc.Load(path + "\\temp\\Grupp7\\installningar.xml");
             foreach (XmlNode xNode in xDoc.SelectNodes("AllaRecept/Recept"))
             {
 
@@ -69,6 +69,7 @@ namespace Grupparbetegrupp7
                 r.Amne = xNode.SelectSingleNode("Amne").InnerText;
                 r.Beskrivning = xNode.SelectSingleNode("Beskrivning").InnerText;
                 recept.Add(r);
+                utskrift = r.Titel;
             }
             return utskrift;
         }

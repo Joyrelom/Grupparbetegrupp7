@@ -55,6 +55,7 @@
             this.cmdSok.TabIndex = 0;
             this.cmdSok.Text = "Sök";
             this.cmdSok.UseVisualStyleBackColor = true;
+            this.cmdSok.Click += new System.EventHandler(this.cmdSok_Click);
             // 
             // txtSok
             // 
@@ -62,6 +63,7 @@
             this.txtSok.Name = "txtSok";
             this.txtSok.Size = new System.Drawing.Size(265, 20);
             this.txtSok.TabIndex = 1;
+            this.txtSok.TextChanged += new System.EventHandler(this.txtSok_TextChanged);
             // 
             // cmdTaBort
             // 
@@ -117,6 +119,7 @@
             this.listRecept.Name = "listRecept";
             this.listRecept.Size = new System.Drawing.Size(363, 368);
             this.listRecept.TabIndex = 7;
+            this.listRecept.SelectedIndexChanged += new System.EventHandler(this.listRecept_SelectedIndexChanged);
             // 
             // cxtAmne
             // 
