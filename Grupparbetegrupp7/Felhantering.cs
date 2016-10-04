@@ -8,7 +8,7 @@ namespace Grupparbetegrupp7
 {
     class Felhantering
     {
-        public void ExceptionMethod(string fileName,string functionName,string content)
+        public void ExceptionMethod(string fileName,string functionName,string content, string dateTime)
         {
             StreamWriter sw = null;
             StringBuilder sb = null;
@@ -21,6 +21,7 @@ namespace Grupparbetegrupp7
             sb = new StringBuilder("Log : ");
             sb.Append(functionName + " | ");
             sb.Append(content);
+            sb.Append(dateTime);
             sw = new StreamWriter(path, true);
             sw.Write(sb);
             sw.Close();

@@ -14,7 +14,8 @@ namespace Grupparbetegrupp7
         Felhantering fel = new Felhantering();
         UpdateXmlFiles ux = new UpdateXmlFiles();
         List<Recept> recept = new List<Recept>();
-
+        MissingFieldException ex = new MissingFieldException();
+        DateTime datetime = DateTime.Now;
         //Kan vara 2 olika recept listor kolla det
         bool allaUppgifterIfyllda;
         public Form1()
@@ -43,31 +44,38 @@ namespace Grupparbetegrupp7
             ResetText();
 
         }
-        private bool AllaUppgifterIfyllda()
+        private bool AllaUppgifterIfyllda(MissingFieldException ex)
         {
+           
             allaUppgifterIfyllda = false;
             try
             {
-                //gör en exception samma vid ta bort
-                
                 if (txtTitel.Text != "" && cxtAmne.Text != "" && rtxt.Text != "")
                 {
+
                     allaUppgifterIfyllda = true;
                     recept[listRecept.SelectedIndex].Titel = txtTitel.Text;
                     recept[listRecept.SelectedIndex].Amne = cxtAmne.Text;
                     recept[listRecept.SelectedIndex].Beskrivning = rtxt.Text;
 
                 }
+                else
+                {
+                    //DateTime now = Convert.ToDateTime(datetime);
+                    fel.ExceptionMethod("Exceptions", " \n Missing Fields in textbox/richtextbox/combobox", ex.ToString(), " | "+datetime.ToString());
+                    MessageBox.Show("Alla uppgifter är ej ifyllda, vänligen kontrollera dina inmatade värden"); 
+
+                }
             }
-            catch (MissingFieldException ex){
-                fel.ExceptionMethod("Exceptions", "Alla uppgifter ej ifyllda", ex.ToString());
+            catch {
+                
             }
             return allaUppgifterIfyllda;
         }
 
         private void cmdSpara_Click(object sender, EventArgs e)
         {
-            if (AllaUppgifterIfyllda())
+            if (AllaUppgifterIfyllda(ex))
             {
 
                 Recept r = new Recept();
@@ -85,7 +93,7 @@ namespace Grupparbetegrupp7
 
         private void cmdAndra_Click(object sender, EventArgs e)
         {
-                if (AllaUppgifterIfyllda())
+                if (AllaUppgifterIfyllda(ex))
                 {
                     recept.RemoveAt(listRecept.SelectedIndex);
                     listRecept.Items.Remove(listRecept.SelectedItems[0]);
