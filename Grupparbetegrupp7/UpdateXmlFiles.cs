@@ -25,14 +25,17 @@ namespace Grupparbetegrupp7
             foreach (Recept r in recept)
             {
                 XmlNode xRecept = xDoc.CreateElement("Recept");
+                XmlNode xID = xDoc.CreateElement("ID");
                 XmlNode xTitel = xDoc.CreateElement("Titel");
                 XmlNode xAmne = xDoc.CreateElement("Amne");
                 XmlNode xBeskrivning = xDoc.CreateElement("Beskrivning");
 
+                xID.InnerText = r.ID;
                 xTitel.InnerText = r.Titel;
                 xAmne.InnerText = r.Amne;
                 xBeskrivning.InnerText = r.Beskrivning;
 
+                xRecept.AppendChild(xID);
                 xRecept.AppendChild(xTitel);
                 xRecept.AppendChild(xAmne);
                 xRecept.AppendChild(xBeskrivning);
@@ -46,32 +49,6 @@ namespace Grupparbetegrupp7
             xDoc.Save(path + "\\temp\\Grupp7\\installningar.xml");
 
         }
-        public string LaddaInRecept(List<Recept> recept)
-        {
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            if (!Directory.Exists(path + "\\temp\\Grupp7"))
-                Directory.CreateDirectory(path + "\\temp\\Grupp7");
-            if (!File.Exists(path + "\\temp\\Grupp7\\installningar.xml"))
-            {
-                XmlTextWriter xmlTW = new XmlTextWriter(path + "\\temp\\Grupp7\\installningar.xml", Encoding.UTF8);
-                xmlTW.WriteStartElement("AllaRecept");
-                xmlTW.WriteEndElement();
-                xmlTW.Close();
-
-            }
-            XmlDocument xDoc = new XmlDocument();
-            xDoc.Load(path + "\\temp\\Grupp7\\installningar.xml");
-            foreach (XmlNode xNode in xDoc.SelectNodes("AllaRecept/Recept"))
-            {
-
-                Recept r = new Recept();
-                r.Titel = xNode.SelectSingleNode("Titel").InnerText;
-                r.Amne = xNode.SelectSingleNode("Amne").InnerText;
-                r.Beskrivning = xNode.SelectSingleNode("Beskrivning").InnerText;
-                recept.Add(r);
-                utskrift = r.Titel;
-            }
-            return utskrift;
-        }
+        
     }
 }

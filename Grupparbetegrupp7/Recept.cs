@@ -8,7 +8,10 @@ namespace Grupparbetegrupp7
 {
     class Recept
     {
-
+        public string ID
+        {
+            get; set;
+        }
         public string Titel
         {
             get; set;
@@ -21,5 +24,6 @@ namespace Grupparbetegrupp7
         {
             get; set;
         }
+
     }
 }

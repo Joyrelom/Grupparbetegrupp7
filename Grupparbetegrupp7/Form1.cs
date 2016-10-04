@@ -7,24 +7,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Xml;
 namespace Grupparbetegrupp7
 {
     public partial class Form1 : Form
     {
+        int i = 0;
+        int id = 1;
         Felhantering fel = new Felhantering();
         UpdateXmlFiles ux = new UpdateXmlFiles();
         List<Recept> recept = new List<Recept>();
         MissingFieldException ex = new MissingFieldException();
         DateTime datetime = DateTime.Now;
-        //Kan vara 2 olika recept listor kolla det
         bool allaUppgifterIfyllda;
+
         public Form1()
         {
             
             InitializeComponent();
-            cmdSpara.Enabled = true;
-            string returvärde= ux.LaddaInRecept(recept);
-            listRecept.Items.Add(returvärde);
+            LaddaInRecept();
            
             
         }
@@ -54,9 +56,7 @@ namespace Grupparbetegrupp7
                 {
 
                     allaUppgifterIfyllda = true;
-                    recept[listRecept.SelectedIndex].Titel = txtTitel.Text;
-                    recept[listRecept.SelectedIndex].Amne = cxtAmne.Text;
-                    recept[listRecept.SelectedIndex].Beskrivning = rtxt.Text;
+                    
 
                 }
                 else
@@ -77,6 +77,8 @@ namespace Grupparbetegrupp7
             {
 
                 Recept r = new Recept();
+                r.ID = id.ToString();
+                id++;
                 r.Titel = txtTitel.Text;
                 r.Amne = cxtAmne.Text;
                 r.Beskrivning= rtxt.Text;
@@ -109,7 +111,7 @@ namespace Grupparbetegrupp7
                     MessageBox.Show("Ditt recept är nu ändrat");
 
                 }
-            cmdSpara.Enabled = true;
+
         }
 
         private void cmdTaBort_Click(object sender, EventArgs e)
@@ -125,33 +127,26 @@ namespace Grupparbetegrupp7
                 fel.ExceptionMethod("Exceptions", " \n Missing Fields in textbox/richtextbox/combobox", ex.ToString(), " | " + datetime.ToString());
                 MessageBox.Show("Alla uppgifter är ej ifyllda, vänligen kontrollera dina inmatade värden");
             }
-            cmdSpara.Enabled = true;
+
             ResetText();
         }
 
         private void listRecept_SelectedIndexChanged(object sender, EventArgs e)
         {
-            cmdSpara.Enabled = false;
-            if (listRecept.SelectedItem != null)
+            try
             {
-                
-                try
-                {
-                    string[] varden = listRecept.SelectedItem.ToString().Split(',');
-                    Recept r = recept.SingleOrDefault(x => x.Titel == varden[0]);
-                    txtTitel.Text = r.Titel;
-                    cxtAmne.Text = r.Amne;
-                    rtxt.Text = r.Beskrivning;
-                }
-                catch (DuplicateNameException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                string[] varden = listRecept.SelectedItem.ToString().Split(',');
+                Recept r = recept.SingleOrDefault(x => x.ID == varden[0]);
+                txtTitel.Text = r.Titel;
+                cxtAmne.Text = r.Amne;
+                rtxt.Text = r.Beskrivning;
             }
+            catch { }
         }
 
         private void txtSok_TextChanged(object sender, EventArgs e)
         {
+            listRecept.ClearSelected();
             ResetText();
             listRecept.Items.Clear();
             if (txtSok.Text == "")
@@ -161,12 +156,12 @@ namespace Grupparbetegrupp7
                     listRecept.Items.Add(item.Titel);
                 }
             }
-            cmdSpara.Enabled = true;
+         
         }
 
         private void cmdSok_Click(object sender, EventArgs e)
         {
-            cmdSpara.Enabled = true;
+            
             if (txtSok.Text != "")
             {
 
@@ -194,21 +189,36 @@ namespace Grupparbetegrupp7
 
             }
         }
-
-        private void txtTitel_TextChanged(object sender, EventArgs e)
+        public void LaddaInRecept()
         {
-            cmdSpara.Enabled = true;
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            if (!Directory.Exists(path + "\\temp\\Grupp7"))
+                Directory.CreateDirectory(path + "\\temp\\Grupp7");
+            if (!File.Exists(path + "\\temp\\Grupp7\\installningar.xml"))
+            {
+                XmlTextWriter xmlTW = new XmlTextWriter(path + "\\temp\\Grupp7\\installningar.xml", Encoding.UTF8);
+                xmlTW.WriteStartElement("AllaRecept");
+                xmlTW.WriteEndElement();
+                xmlTW.Close();
+
+            }
+            XmlDocument xDoc = new XmlDocument();
+            xDoc.Load(path + "\\temp\\Grupp7\\installningar.xml");
+            foreach (XmlNode xNode in xDoc.SelectNodes("AllaRecept/Recept"))
+            {
+
+                Recept r = new Recept();
+                r.ID = xNode.SelectSingleNode("ID").InnerText;
+                r.Titel = xNode.SelectSingleNode("Titel").InnerText;
+                r.Amne = xNode.SelectSingleNode("Amne").InnerText;
+                r.Beskrivning = xNode.SelectSingleNode("Beskrivning").InnerText;
+                recept.Add(r);
+                listRecept.Items.Add(r.ID + ", " + r.Titel);
+            }
+
         }
 
-        private void cxtAmne_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            cmdSpara.Enabled = true;
-        }
-
-        private void rtxt_TextChanged(object sender, EventArgs e)
-        {
-            cmdSpara.Enabled = true;
-        }
     }
+
 
 }
