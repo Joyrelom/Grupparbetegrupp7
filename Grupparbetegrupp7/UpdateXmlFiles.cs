@@ -9,9 +9,9 @@ namespace Grupparbetegrupp7
 {
     class UpdateXmlFiles
     {
-        List<Recept> recept = new List<Recept>();
         string utskrift="";
-        public void UpdateXml()
+       
+        public void UpdateXml(List<Recept> recept)
         {
             string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
@@ -46,7 +46,7 @@ namespace Grupparbetegrupp7
             xDoc.Save(path + "\\temp\\Grupp7\\installningar.xml");
 
         }
-        public string LaddaInRecept()
+        public string LaddaInRecept(List<Recept> recept)
         {
             string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             if (!Directory.Exists(path + "\\temp\\Grupp7"))

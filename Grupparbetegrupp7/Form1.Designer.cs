@@ -40,10 +40,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.gbxRecept = new System.Windows.Forms.GroupBox();
+            this.gbxsok = new System.Windows.Forms.GroupBox();
+            this.gbxRecept.SuspendLayout();
+            this.gbxsok.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmdSok
@@ -162,51 +162,51 @@
             this.label3.TabIndex = 11;
             this.label3.Text = "Beskrivning";
             // 
-            // groupBox1
+            // gbxRecept
             // 
-            this.groupBox1.Controls.Add(this.txtTitel);
-            this.groupBox1.Controls.Add(this.rtxt);
-            this.groupBox1.Controls.Add(this.cmdTaBort);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.cmdAndra);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.cmdSpara);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.cxtAmne);
-            this.groupBox1.Location = new System.Drawing.Point(63, 37);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(330, 453);
-            this.groupBox1.TabIndex = 12;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
+            this.gbxRecept.Controls.Add(this.txtTitel);
+            this.gbxRecept.Controls.Add(this.rtxt);
+            this.gbxRecept.Controls.Add(this.cmdTaBort);
+            this.gbxRecept.Controls.Add(this.label3);
+            this.gbxRecept.Controls.Add(this.cmdAndra);
+            this.gbxRecept.Controls.Add(this.label2);
+            this.gbxRecept.Controls.Add(this.cmdSpara);
+            this.gbxRecept.Controls.Add(this.label1);
+            this.gbxRecept.Controls.Add(this.cxtAmne);
+            this.gbxRecept.Location = new System.Drawing.Point(63, 37);
+            this.gbxRecept.Name = "gbxRecept";
+            this.gbxRecept.Size = new System.Drawing.Size(330, 453);
+            this.gbxRecept.TabIndex = 12;
+            this.gbxRecept.TabStop = false;
+            this.gbxRecept.Text = "Recept";
             // 
-            // groupBox2
+            // gbxsok
             // 
-            this.groupBox2.Controls.Add(this.listRecept);
-            this.groupBox2.Controls.Add(this.cmdSok);
-            this.groupBox2.Controls.Add(this.txtSok);
-            this.groupBox2.Location = new System.Drawing.Point(464, 37);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(407, 453);
-            this.groupBox2.TabIndex = 13;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "groupBox2";
+            this.gbxsok.Controls.Add(this.listRecept);
+            this.gbxsok.Controls.Add(this.cmdSok);
+            this.gbxsok.Controls.Add(this.txtSok);
+            this.gbxsok.Location = new System.Drawing.Point(464, 37);
+            this.gbxsok.Name = "gbxsok";
+            this.gbxsok.Size = new System.Drawing.Size(407, 453);
+            this.gbxsok.TabIndex = 13;
+            this.gbxsok.TabStop = false;
+            this.gbxsok.Text = "Sök efter Recept";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(935, 530);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.gbxsok);
+            this.Controls.Add(this.gbxRecept);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.gbxRecept.ResumeLayout(false);
+            this.gbxRecept.PerformLayout();
+            this.gbxsok.ResumeLayout(false);
+            this.gbxsok.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -225,8 +225,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox gbxRecept;
+        private System.Windows.Forms.GroupBox gbxsok;
     }
 }
 

@@ -19,7 +19,7 @@ namespace Grupparbetegrupp7
         {
             
             InitializeComponent();
-            string returvärde= ux.LaddaInRecept();
+            string returvärde= ux.LaddaInRecept(recept);
             listRecept.Items.Add(returvärde);
         }
 
@@ -35,7 +35,7 @@ namespace Grupparbetegrupp7
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             txtSok.Text = "";
-            ux.UpdateXml();
+            ux.UpdateXml(recept);
             ResetText();
 
         }
@@ -73,9 +73,9 @@ namespace Grupparbetegrupp7
                 r.Beskrivning= rtxt.Text;
                 recept.Add(r);
                 listRecept.Items.Add(r.Titel);
-                ux.UpdateXml();
+                ux.UpdateXml(recept);
 
-                MessageBox.Show("Din adress är nu sparad");
+                MessageBox.Show("Ditt recept är nu sparat");
                 ResetText();
             }
         }
@@ -96,7 +96,7 @@ namespace Grupparbetegrupp7
 
                     recept.Add(r);
                     listRecept.Items.Add(r.Titel);
-                    ux.UpdateXml();
+                    ux.UpdateXml(recept);
                     ResetText();
 
                     MessageBox.Show("Ditt recept är nu ändrat");
@@ -112,7 +112,7 @@ namespace Grupparbetegrupp7
             {
                 recept.RemoveAt(listRecept.SelectedIndex);
                 listRecept.Items.Remove(listRecept.SelectedItems[0]);
-                ux.UpdateXml();
+                ux.UpdateXml(recept);
                listRecept.ClearSelected();
             }
             catch { }
