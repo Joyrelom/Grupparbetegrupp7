@@ -82,6 +82,7 @@
             this.rtxt.Size = new System.Drawing.Size(295, 295);
             this.rtxt.TabIndex = 3;
             this.rtxt.Text = "";
+            this.rtxt.TextChanged += new System.EventHandler(this.rtxt_TextChanged);
             // 
             // cmdAndra
             // 
@@ -111,6 +112,7 @@
             this.txtTitel.Name = "txtTitel";
             this.txtTitel.Size = new System.Drawing.Size(217, 25);
             this.txtTitel.TabIndex = 6;
+            this.txtTitel.TextChanged += new System.EventHandler(this.txtTitel_TextChanged);
             // 
             // listRecept
             // 
@@ -134,6 +136,7 @@
             this.cxtAmne.Name = "cxtAmne";
             this.cxtAmne.Size = new System.Drawing.Size(121, 21);
             this.cxtAmne.TabIndex = 8;
+            this.cxtAmne.SelectedIndexChanged += new System.EventHandler(this.cxtAmne_SelectedIndexChanged);
             // 
             // label1
             // 

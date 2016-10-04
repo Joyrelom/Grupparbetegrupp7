@@ -22,6 +22,7 @@ namespace Grupparbetegrupp7
         {
             
             InitializeComponent();
+            cmdSpara.Enabled = true;
             string returvärde= ux.LaddaInRecept(recept);
             listRecept.Items.Add(returvärde);
            
@@ -111,6 +112,7 @@ namespace Grupparbetegrupp7
                     MessageBox.Show("Ditt recept är nu ändrat");
 
                 }
+            cmdSpara.Enabled = true;
         }
 
         private void cmdTaBort_Click(object sender, EventArgs e)
@@ -123,20 +125,25 @@ namespace Grupparbetegrupp7
                listRecept.ClearSelected();
             }
             catch { }
-
+            cmdSpara.Enabled = true;
             ResetText();
         }
 
         private void listRecept_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            cmdSpara.Enabled = false;
             if (listRecept.SelectedItem != null)
             {
                 string[] varden = listRecept.SelectedItem.ToString().Split(',');
-                Recept r = recept.SingleOrDefault(x => x.Titel == varden[0]);
-                txtTitel.Text = r.Titel;
-                cxtAmne.Text = r.Amne;
-                rtxt.Text = r.Beskrivning;
+                try
+                {
+                    Recept r = recept.SingleOrDefault(x => x.Titel == varden[0]);
+                    txtTitel.Text = r.Titel;
+                    cxtAmne.Text = r.Amne;
+                    rtxt.Text = r.Beskrivning;
+                }
+                catch (DuplicateNameException ex)
+                { }
             }
         }
 
@@ -151,11 +158,12 @@ namespace Grupparbetegrupp7
                     listRecept.Items.Add(item.Titel);
                 }
             }
+            cmdSpara.Enabled = true;
         }
 
         private void cmdSok_Click(object sender, EventArgs e)
         {
-
+            cmdSpara.Enabled = true;
             if (txtSok.Text != "")
             {
 
@@ -182,6 +190,21 @@ namespace Grupparbetegrupp7
 
 
             }
+        }
+
+        private void txtTitel_TextChanged(object sender, EventArgs e)
+        {
+            cmdSpara.Enabled = true;
+        }
+
+        private void cxtAmne_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cmdSpara.Enabled = true;
+        }
+
+        private void rtxt_TextChanged(object sender, EventArgs e)
+        {
+            cmdSpara.Enabled = true;
         }
     }
 
