@@ -11,8 +11,10 @@ namespace Grupparbetegrupp7
 {
     public partial class Form1 : Form
     {
+        Felhantering fel = new Felhantering();
         UpdateXmlFiles ux = new UpdateXmlFiles();
         List<Recept> recept = new List<Recept>();
+
         //Kan vara 2 olika recept listor kolla det
         bool allaUppgifterIfyllda;
         public Form1()
@@ -21,6 +23,8 @@ namespace Grupparbetegrupp7
             InitializeComponent();
             string returvärde= ux.LaddaInRecept(recept);
             listRecept.Items.Add(returvärde);
+           
+            
         }
 
 
@@ -41,10 +45,11 @@ namespace Grupparbetegrupp7
         }
         private bool AllaUppgifterIfyllda()
         {
+            allaUppgifterIfyllda = false;
             try
             {
                 //gör en exception samma vid ta bort
-                allaUppgifterIfyllda = false;
+                
                 if (txtTitel.Text != "" && cxtAmne.Text != "" && rtxt.Text != "")
                 {
                     allaUppgifterIfyllda = true;
@@ -53,12 +58,10 @@ namespace Grupparbetegrupp7
                     recept[listRecept.SelectedIndex].Beskrivning = rtxt.Text;
 
                 }
-                else if (allaUppgifterIfyllda == false)
-                {
-                    MessageBox.Show("Du måste fylla i alla uppgifter för att spara ett recept");
-                }
             }
-            catch { }
+            catch (MissingFieldException ex){
+                fel.ExceptionMethod("Exceptions", "Alla uppgifter ej ifyllda", ex.ToString());
+            }
             return allaUppgifterIfyllda;
         }
 
@@ -82,8 +85,6 @@ namespace Grupparbetegrupp7
 
         private void cmdAndra_Click(object sender, EventArgs e)
         {
-            try
-            {
                 if (AllaUppgifterIfyllda())
                 {
                     recept.RemoveAt(listRecept.SelectedIndex);
@@ -102,8 +103,6 @@ namespace Grupparbetegrupp7
                     MessageBox.Show("Ditt recept är nu ändrat");
 
                 }
-            }
-            catch { }
         }
 
         private void cmdTaBort_Click(object sender, EventArgs e)
