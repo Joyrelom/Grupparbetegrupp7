@@ -49,8 +49,7 @@ namespace Grupparbetegrupp7
         {
            
             allaUppgifterIfyllda = false;
-            try
-            {
+
                 if (txtTitel.Text != "" && cxtAmne.Text != "" && rtxt.Text != "")
                 {
 
@@ -63,14 +62,12 @@ namespace Grupparbetegrupp7
                 else
                 {
                     //DateTime now = Convert.ToDateTime(datetime);
-                    fel.ExceptionMethod("Exceptions", " \n Missing Fields in textbox/richtextbox/combobox", ex.ToString(), " | "+datetime.ToString());
+                    fel.ExceptionMethod("Exceptions", " \n Missing Fields in textbox/richtextbox/combobox", ex.ToString(), " | " + datetime.ToString());
                     MessageBox.Show("Alla uppgifter är ej ifyllda, vänligen kontrollera dina inmatade värden"); 
 
                 }
-            }
-            catch {
-                
-            }
+            
+
             return allaUppgifterIfyllda;
         }
 
@@ -117,14 +114,17 @@ namespace Grupparbetegrupp7
 
         private void cmdTaBort_Click(object sender, EventArgs e)
         {
-            try
-            {
+            if (listRecept.SelectedItems!= null)
+            { 
                 recept.RemoveAt(listRecept.SelectedIndex);
                 listRecept.Items.Remove(listRecept.SelectedItems[0]);
                 ux.UpdateXml(recept);
                listRecept.ClearSelected();
             }
-            catch { }
+            else{
+                fel.ExceptionMethod("Exceptions", " \n Missing Fields in textbox/richtextbox/combobox", ex.ToString(), " | " + datetime.ToString());
+                MessageBox.Show("Alla uppgifter är ej ifyllda, vänligen kontrollera dina inmatade värden");
+            }
             cmdSpara.Enabled = true;
             ResetText();
         }
@@ -134,16 +134,19 @@ namespace Grupparbetegrupp7
             cmdSpara.Enabled = false;
             if (listRecept.SelectedItem != null)
             {
-                string[] varden = listRecept.SelectedItem.ToString().Split(',');
+                
                 try
                 {
+                    string[] varden = listRecept.SelectedItem.ToString().Split(',');
                     Recept r = recept.SingleOrDefault(x => x.Titel == varden[0]);
                     txtTitel.Text = r.Titel;
                     cxtAmne.Text = r.Amne;
                     rtxt.Text = r.Beskrivning;
                 }
                 catch (DuplicateNameException ex)
-                { }
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
 
