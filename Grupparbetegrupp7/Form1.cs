@@ -137,6 +137,7 @@ namespace Grupparbetegrupp7
             {
                 // No need to make a search on the recept list we allready have the code we need to pass to the 
                 // textboxes in the string varden. 
+
                 string[] varden = listRecept.SelectedItem.ToString().Split(',');
                 txtTitel.Text = varden[1];
                 cxtAmne.Text = varden[2];
