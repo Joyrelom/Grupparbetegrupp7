@@ -135,11 +135,17 @@ namespace Grupparbetegrupp7
         {
             try
             {
+                // No need to make a search on the recept list we allready have the code we need to pass to the 
+                // textboxes in the string varden. 
                 string[] varden = listRecept.SelectedItem.ToString().Split(',');
-                Recept r = recept.SingleOrDefault(x => x.ID == varden[0]);
-                txtTitel.Text = r.Titel;
-                cxtAmne.Text = r.Amne;
-                rtxt.Text = r.Beskrivning;
+                txtTitel.Text = varden[1];
+                cxtAmne.Text = varden[2];
+                rtxt.Text = varden[3];
+
+               // Recept r = recept.SingleOrDefault(x => x.ID == varden[0]);
+               // txtTitel.Text = r.Titel;
+               // cxtAmne.Text = r.Amne;
+               // rtxt.Text = r.Beskrivning;
             }
             catch { }
         }
@@ -208,7 +214,7 @@ namespace Grupparbetegrupp7
             {
 
                 Recept r = new Recept();
-                r.ID = xNode.SelectSingleNode("ID").InnerText;
+                //r.ID = xNode.SelectSingleNode("ID").InnerText;
                 r.Titel = xNode.SelectSingleNode("Titel").InnerText;
                 r.Amne = xNode.SelectSingleNode("Amne").InnerText;
                 r.Beskrivning = xNode.SelectSingleNode("Beskrivning").InnerText;
